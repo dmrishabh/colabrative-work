@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Marmeto day 1 project</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <i class="fa fa-map-marker-alt m-marker"></i>
+      <div class="m-input">
+        <input
+          class="m-field"
+          type="text"
+          id="pincode-input"
+          name="zipcode"
+          placeholder="Enter a zip code"
+        />
+      </div>
+      <input
+        id="check-btn"
+        class="m-btn"
+        type="button"
+        value="Submit"
+        onClick="checkDelivery();"
+      />
+    </div>
+    <span id="result1"></span>
+    <span id="result2"></span>
+
+    <!-- Script -->
+    <script type="text/javascript">
+      async function checkDelivery() {
+        document.getElementById("check-btn").innerText = "Change";
+        const pin = document.getElementById("pincode-input").value;
+        let result1 = document.getElementById("result1");
+        let result2 = document.getElementById("result2");
+        let data = await fetch("./pincode.json")
+          .then((res) => res.json())
+          .then((data) => {
+            return data;
+          });
+        let found = false;
+
+        if (pin.length == 6) {
+          for (let i = 0; i < data.length; i++) {
+            if (pin == data[i].pincode) {
+              found = true;
+              if (data[i].cod == "true") {
+                result1.style.display = "list-item";
+                result1.innerText = "COD payment option available";
+                result1.className = "p-true";
+              } else {
+                result1.style.display = "list-item";
+                result1.innerText = "COD payment option not available";
+                result1.className = "p-false";
+              }
+              result2.style.display = "list-item";
+              result2.innerText = "fastest delivery by " + data[i].delivery;
+              result2.className = "p-true";
+              break;
+            }
+          }
+
+          if (found == false) {
+            result2.style.display = "none";
+            result1.style.display = "list-item";
+            result1.innerText = "Not delivering to this location";
+            result1.className = "p-false";
+            result1.style.color = "white";
+          }
+        } else {
+          result2.style.display = "none";
+          result1.style.display = "list-item";
+          result1.innerText = "Please enter valid pincode";
+          result1.className = "p-false";
+        }
+      }
+    </script>
+  </body>
+</html>

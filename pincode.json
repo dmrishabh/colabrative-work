@@ -1,0 +1,22 @@
+[
+    {
+        "pincode":"560098",
+        "cod":"true",
+        "delivery":"12th July"
+    },
+    {
+        "pincode":"560010",
+        "cod":"false",
+        "delivery":"9th July"
+    },
+    {
+        "pincode":"560078",
+        "cod":"true",
+        "delivery":"10th July"
+    },
+    {
+        "pincode":"560058",
+        "cod":"false",
+        "delivery":"11th July"
+    }
+]
